@@ -1,158 +1,139 @@
-🧠 Human-in-the-Loop AI Supervisor
-🚀 Frontdesk Engineering Test — AI Receptionist System
-A locally running simulation of an AI receptionist that:
+# 🧠 Human-in-the-Loop AI Supervisor
 
+### 🚀 Frontdesk Engineering Test — AI Receptionist System
 
-Handles customer queries
+A locally running simulation of an **AI receptionist** that:
+- Handles customer queries
+- Escalates unknown questions to a **human supervisor**
+- Updates its **knowledge base automatically** after learning new answers
 
+---
 
-Escalates unknown questions to a human supervisor
+## 🏗️ Project Overview
 
-
-Updates its knowledge base automatically after learning new answers
-
-
-
-🏗️ Project Overview
-This project demonstrates a human-in-the-loop AI system where an AI agent collaborates with a human supervisor for decision-making.
+This project demonstrates a **human-in-the-loop AI system** where an AI agent collaborates with a human supervisor for decision-making.  
 If the AI cannot answer a customer’s query, it escalates to a human, learns the correct answer, and updates its own database for future responses.
-It is designed for clarity, modularity, and reliability, focusing on production-ready architecture rather than polish.
 
-⚙️ Tech Stack
-LayerTechnology UsedBackendPython (Flask)AI SimulationLiveKit SDK (Python)DatabaseFirebase (Firestore)Frontend (Admin Panel)HTML + Flask TemplatesVersion ControlGit & GitHubEnvironmentLocal (Virtual Environment + Python 3.10+)
+The focus is on **clarity, modularity, and reliability**, not polish.
 
-🧩 Features Implemented
-✅ AI Agent Simulation
+---
 
+## ⚙️ Tech Stack
 
-Uses LiveKit (or mock simulation) to receive customer “calls”
+| Layer | Technology |
+|-------|-------------|
+| **Backend** | Python (Flask) |
+| **AI Simulation** | LiveKit SDK |
+| **Database** | Firebase (Firestore) |
+| **Frontend (Admin Panel)** | HTML + Flask Templates |
+| **Version Control** | Git & GitHub |
+| **Environment** | Local (Python 3.10+) |
 
+---
 
-Responds automatically if it knows the answer
+## 🧩 Features
 
+- 🤖 **AI Agent Simulation** — handles queries & escalates unknown ones  
+- 👨‍💼 **Supervisor Panel** — view/respond to pending help requests  
+- 🧠 **Knowledge Base Learning** — saves and reuses learned answers  
+- 🔄 **Lifecycle Management** — requests move from *Pending → Resolved/Unresolved*  
+- ⚙️ **Error Handling** — simple, reliable architecture  
 
-Escalates unknown questions to a human
+---
 
+## 🧱 Folder Structure
 
-✅ Human Supervisor Panel
-
-
-Simple web interface (Flask)
-View all pending help requests
-Submit answers and mark requests as resolved/unresolved
-
-
-✅ Knowledge Base Learning
-
-AI automatically saves learned responses
-Uses these learned answers in future interactions
-
-
-✅ Request Lifecycle Management
-
-Tracks requests from Pending → Resolved/Unresolved
-Handles timeout gracefully
-
-
-
-🧱 Folder Structure
 human_in_loop_ai/
 │
-├── ai_agent/                 # AI logic for handling and escalating queries
-│   ├── agent.py
-│   ├── prompt_data.json
+├── ai_agent/ # AI logic for handling and escalating queries
+│ ├── agent.py
+│ ├── prompt_data.json
 │
-├── supervisor_ui/            # Flask app for human supervisor interface
-│   ├── app.py
-│   ├── templates/
-│   │   ├── pending.html
-│   │   ├── learned.html
-│   │   ├── history.html
+├── supervisor_ui/ # Flask app for human supervisor interface
+│ ├── app.py
+│ ├── templates/
+│ │ ├── pending.html
+│ │ ├── learned.html
+│ │ ├── history.html
 │
-├── db/                       # Firebase database configuration and models
-│   ├── firebase_config.py
-│   ├── models.py
+├── db/ # Firebase configuration and data models
+│ ├── firebase_config.py
+│ ├── models.py
 │
-├── config/                   # Firebase keys or other configurations
-│   ├── firebase_key.json
+├── config/ # Service account keys and settings
+│ ├── firebase_key.json
 │
-├── README.md                 # Project documentation (this file)
-├── requirements.txt          # Python dependencies
-└── .gitignore                # Ignored files and directories
+├── README.md
+├── requirements.txt
+└── .gitignore
 
+yaml
+Copy code
 
-⚡ Setup Instructions
-1️⃣ Clone the Repository
+---
+
+## ⚡ Setup Instructions
+
+### 1️⃣ Clone the Repository
+```bash
 git clone https://github.com/Nitinkumar4169/human-in-loop-ai.git
 cd human-in-loop-ai
-
-2️⃣ Create Virtual Environment
+2️⃣ Create a Virtual Environment
+bash
+Copy code
 python -m venv venv
-venv\Scripts\activate     # For Windows
+venv\Scripts\activate     # Windows
 # or
-source venv/bin/activate  # For macOS/Linux
-
+source venv/bin/activate  # macOS/Linux
 3️⃣ Install Dependencies
+bash
+Copy code
 pip install -r requirements.txt
-
-4️⃣ Set Up Firebase
-
-
+4️⃣ Configure Firebase
 Go to Firebase Console
 
+Create a new project and enable Firestore Database
 
-Create a project → enable Firestore Database
+Generate a Service Account Key
 
+Save it as:
 
-Generate Service Account Key → download JSON
-
-
-Place it in:
+arduino
+Copy code
 config/firebase_key.json
-
-
-
-
 🧠 How It Works
-AI Flow:
+AI receives a simulated customer call/query
 
+If the query is known → AI responds immediately
 
-AI receives simulated call/query
+If unknown → creates a help request in the database
 
+Supervisor views the request on the web panel → submits an answer
 
-If answer found → responds directly
-
-
-If unknown → creates a “help request” in database
-
-
-Supervisor views it on web panel → submits answer
-
-
-AI automatically follows up and updates its knowledge base
-
-
+AI follows up with the customer and stores the new information
 
 🧑‍💻 Run the Application
-Start Flask Server:
+Start the Flask app:
+
+bash
+Copy code
 python supervisor_ui/app.py
-
 Then open your browser at:
-👉 http://127.0.0.1:5000
-You’ll see:
 
+cpp
+Copy code
+http://127.0.0.1:5000
+You’ll see:
 
 Pending Help Requests
 
-
 Respond Page
-
 
 Learned Answers
 
-
-
 🧩 Example Console Output
+text
+Copy code
 AI: Hello! How can I help you today?
 User: Do you offer hair coloring?
 AI: Yes, we offer Haircut, Coloring, and Facial services!
@@ -160,49 +141,56 @@ AI: Yes, we offer Haircut, Coloring, and Facial services!
 User: Do you provide bridal makeup?
 AI: Let me check with my supervisor and get back to you.
 Supervisor Alert: "Hey, I need help answering: Do you provide bridal makeup?"
+🧱 Design Highlights
+Modular architecture (AI, UI, and DB separated)
 
+Scales easily from 10 → 1,000+ requests/day
 
-🧠 Design Choices
+Graceful handling of timeouts and unresolved cases
 
-Modular code structure for scalability
-Separated agent, database, and UI logic
-Graceful error handling for missing data or timeouts
-Designed to scale from 10 to 1,000+ requests/day
+Clean database relations for request lifecycle
 
+🚀 Future Enhancements
+Real phone integration using Twilio
 
+Live call handoff for supervisors
 
-📈 Future Improvements
+Authentication for supervisors
 
+React/Tailwind-based frontend
 
-Real phone integration using Twilio API
-Supervisor live call handoff (Phase 2)
-User authentication for supervisors
-Better UI styling using React or Tailwind
-Docker deployment setup
+Dockerized deployment
 
+🎥 Demo Video (Submission)
+Record a short demo showing:
 
+System overview
 
-📷 Demo Video (For Submission)
-🎥 Record a short walkthrough explaining:
+How the AI escalates and learns
 
+Key design decisions & improvements
 
-How the system works
-
-
-Your code structure and design
-
-
-Future improvements
-
-
-
-🧑‍🏫 Author
+👨‍💻 Author
 Nitin Kumar
 📧 nitinkmr.4169@gmail.com
-💼 GitHub: Nitinkumar4169
+💼 GitHub Profile
 
 📄 License
 This project was created for the Frontdesk Engineering Test.
-Free to use for educational or demonstration purposes only.
+Free to use for educational and demonstration purposes.
 
-Would you like me to make a slightly shorter README version (for interview submission) — one that focuses only on setup + demo instructions (less theoretical text)? It’s ideal if recruiters only skim your GitHub repo.
+yaml
+Copy code
+
+---
+
+### ✅ Instructions
+1. Open **VS Code**
+2. In the Explorer, right-click → **New File** → name it `README.md`
+3. Paste everything above
+4. Save (Ctrl + S)
+5. Commit & push:
+   ```bash
+   git add README.md
+   git commit -m "Added professional README"
+   git push
