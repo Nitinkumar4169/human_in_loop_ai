@@ -6,5 +6,5 @@ A simulated AI receptionist that escalates customer queries to a human superviso
 ## ⚙️ Setup Instructions
 1. Clone the repository:
    ```bash
-   git clone https://github.com/<yourusername>/human-in-loop-ai.git
-   cd human-in-loop-ai
+   git clone https://github.com/<Nitinkumar4169>/Human-IN-LOOP-AI.git
+   cd Human-IN-LOOP-AI
