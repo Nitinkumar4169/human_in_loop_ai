@@ -1,0 +1,7 @@
+{
+  "salon_name": "GlowUp Salon",
+  "services": ["Haircut", "Hair Coloring", "Facial", "Threading", "Pedicure", "Manicure"],
+  "hours": "9 AM - 8 PM",
+  "location": "Bangalore, Karnataka",
+  "contact": "+91-9876543210"
+}
