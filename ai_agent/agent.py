@@ -1,62 +1,52 @@
+import sys, os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 import json
 from datetime import datetime
 from db.firebase_config import db
 
-# -------------------------------
-# Load salon knowledge base
-# -------------------------------
+
+# Load static salon data
 with open("ai_agent/prompt_data.json", "r") as f:
     salon_data = json.load(f)
 
-# -------------------------------
-# Agent Prompt (for clarity)
-# -------------------------------
-AGENT_PROMPT = """
-# Identity
-You are an AI receptionist for GlowUp Salon.
-You greet customers, answer questions, and ask for supervisor help when needed.
+# Load dynamic knowledge from Firebase
+def load_resolved_knowledge():
+    docs = db.collection("requests").where("status", "==", "resolved").get()
+    knowledge = {}
+    for doc in docs:
+        data = doc.to_dict()
+        question = data.get("query", "").lower().strip()
+        answer = data.get("answer", "")
+        if question and answer:
+            knowledge[question] = answer
+    print(f"🧠 Loaded {len(knowledge)} learned answers from Firebase.")
+    return knowledge
 
-# Instructions
-- Be polite and concise.
-- Use only information from the salon data.
-- If unsure, respond with: "Let me check with my supervisor and get back to you."
-- Never invent information.
+resolved_knowledge = load_resolved_knowledge()
 
-# Examples
-Customer: What time do you open?
-AI: Our working hours are 9 AM - 8 PM.
-
-Customer: Do you offer bridal makeup?
-AI: Let me check with my supervisor and get back to you.
-"""
-
-# -------------------------------
-# Core logic
-# -------------------------------
 def handle_query(query: str) -> str:
-    query = query.lower().strip()
+    q = query.lower().strip()
 
-    # Known info checks
+    # Check learned responses
+    if q in resolved_knowledge:
+        return resolved_knowledge[q]
+
+    # Check predefined salon info
     for service in salon_data["services"]:
-        if service.lower() in query:
+        if service.lower() in q:
             return f"Yes! We offer {service} services at {salon_data['salon_name']}."
-
-    if "time" in query or "hours" in query:
+    if "time" in q or "hours" in q:
         return f"Our working hours are {salon_data['hours']}."
-
-    if "location" in query or "where" in query:
+    if "location" in q or "where" in q:
         return f"We are located at {salon_data['location']}."
-
-    if "contact" in query or "phone" in query:
+    if "contact" in q or "phone" in q:
         return f"You can reach us at {salon_data['contact']}."
 
-    # Unknown → create help request
-    create_help_request(query)
+    # Unknown → send to Firebase help request
+    create_help_request(q)
     return "Let me check with my supervisor and get back to you."
 
-# -------------------------------
-# Store unresolved queries in Firebase
-# -------------------------------
 def create_help_request(query: str):
     data = {
         "query": query,
@@ -66,9 +56,6 @@ def create_help_request(query: str):
     db.collection("requests").add(data)
     print(f"📩 Help request created → {query}")
 
-# -------------------------------
-# Simulation: terminal-based call
-# -------------------------------
 def simulate_call():
     print("📞 Call started — type a query (or 'exit' to end):")
     while True:

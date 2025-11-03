@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GlowUp Salon – Supervisor Dashboard</title>
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+
+  <a href="{{ url_for('resolve', id=req.id) }}" class="btn btn-resolve btn-sm text-white">Resolve / Reply</a>
+
+
+  <!-- ✅ Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- ✅ Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    body {
+      background: #f3f6fa;
+      font-family: "Poppins", sans-serif;
+      color: #333;
+      font-size: 5rem;
+      /* 👈 increased base size */
+    }
+
+    /* 🌸 Navbar */
+    .navbar {
+      background: linear-gradient(90deg, #ff4b8b, #ff1493);
+      box-shadow: 0px 4px 10px rgba(255, 20, 147, 0.2);
+    }
+
+    .navbar-brand {
+      font-weight: 700;
+      font-size: 5rem;
+      color: white !important;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .navbar-brand img {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+    }
+
+    /* 💼 Main container */
+    .dashboard-container {
+  max-width: 100%;
+  width: 95%;
+  margin: 50px auto;
+}
+
+
+    /* 💳 Card */
+    .card {
+      border: none;
+      border-radius: 20px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+      background: white;
+      padding: 50px;
+    }
+
+    /* 🧾 Title */
+    .dashboard-title {
+      text-align: center;
+      font-weight: 800;
+      font-size: 4.5rem;
+      color: #1a1a1a;
+      letter-spacing: 0.5px;
+      margin-bottom: 40px;
+    }
+
+    /* 🌈 Table */
+    th {
+      background-color: #ff4b8b !important;
+      color: white;
+      text-transform: uppercase;
+      font-size: 3.5rem;
+      letter-spacing: 0.5px;
+      text-align: center;
+      padding: 18px;
+    }
+
+    td {
+      text-align: center;
+      vertical-align: middle;
+      font-size: 3.1rem;
+      padding: 20px;
+    }
+
+    .badge {
+      font-size: 2.2rem;
+      padding: 10px 18px;
+      border-radius: 10px;
+    }
+
+    .badge-pending {
+      background-color: #ffc107;
+      color: #000;
+      font-weight: 600;
+    }
+
+    .badge-resolved {
+      background-color: #28a745;
+      color: white;
+      font-weight: 600;
+    }
+
+    .btn-resolve {
+      background-color: #28a745;
+      border: none;
+      border-radius: 10px;
+      font-weight: 600;
+      transition: all 0.2s ease-in-out;
+      padding: 10px 20px;
+      font-size: 1.05rem;
+    }
+
+    .btn-resolve:hover {
+      background-color: #218838;
+      transform: scale(1.05);
+    }
+
+    /* ✨ Animation */
+    .fade-in {
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    footer {
+      text-align: center;
+      color: #555;
+      font-size: 2rem;
+      margin-top: 60px;
+    }
+
+    footer b {
+      font-weight: 700;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 🌸 Navbar -->
+  <nav class="navbar px-4 py-3">
+    <a class="navbar-brand" href="/">
+      <img src="/favicon.ico" alt="Logo" />
+      GlowUp Salon Supervisor Dashboard
+    </a>
+  </nav>
+
+  <!-- 💼 Dashboard -->
+  <div class="dashboard-container fade-in">
+    <div class="card">
+      <h2 class="dashboard-title">
+        🧾 Customer Query Management Panel
+      </h2>
+
+      {% if requests %}
+      <div class="table-responsive">
+        <table class="table table-hover align-middle">
+          <thead>
+            <tr>
+              <th>Query</th>
+              <th>Status</th>
+              <th>Created At</th>
+              <th>Resolved At</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for req in requests %}
+            <tr>
+              <td>{{ req.query }}</td>
+              <td>
+                {% if req.status == "pending" %}
+                <span class="badge badge-pending">Pending</span>
+                {% else %}
+                <span class="badge badge-resolved">Resolved</span>
+                {% endif %}
+              </td>
+              <td>{{ req.created_at }}</td>
+              <td>{{ req.resolved_at if req.resolved_at else "-" }}</td>
+              <td>
+                {% if req.status == "pending" %}
+                <a href="{{ url_for('resolve', id=req.id) }}" class="btn btn-resolve text-white">Mark Resolved</a>
+                {% else %}
+                <span class="text-success fw-bold" style="font-size: 1.1rem;">✅ Done</span>
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% else %}
+      <div class="alert alert-success text-center fw-bold" role="alert" style="font-size: 2.6.2rem;">
+        🎉 All customer queries have been resolved!
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <footer>
+    <p>Made with 💗 by <b>Nitin Kumar</b> | GlowUp Salon AI System © 2025</p>
+  </footer>
+
+  <!-- ✅ Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- 🔄 Auto-refresh every 20 seconds -->
+  <script>
+    setInterval(() => {
+      window.location.reload();
+    }, 20000);
+  </script>
+</body>
+
+</html>
