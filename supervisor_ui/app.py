@@ -1,3 +1,7 @@
+import sys, os
+# 👇 Add parent folder to Python path so 'db' module is found
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from flask import Flask, render_template, redirect, url_for, flash
 from db.firebase_config import db
 from datetime import datetime
