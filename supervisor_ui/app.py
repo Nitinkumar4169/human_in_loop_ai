@@ -1,13 +1,13 @@
 import sys, os
-# 👇 Add parent folder to Python path so 'db' module is found
+# 👇 Add parent folder to Python path so Flask can find the "db" module
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from flask import Flask, render_template, redirect, url_for, flash
+from flask import Flask, render_template, redirect, url_for, flash, send_from_directory
 from db.firebase_config import db
 from datetime import datetime
 
 app = Flask(__name__)
-app.secret_key = "supersecretkey"  # required for flash messages
+app.secret_key = "supersecretkey"  # Required for flash messages
 
 # --------------------------
 # Dashboard route
@@ -42,8 +42,20 @@ def resolve(id):
     return redirect(url_for("dashboard"))
 
 # --------------------------
-# Run app
+# Favicon route (to stop 404 warnings)
+# --------------------------
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(
+        os.path.join(app.root_path),
+        'favicon.ico',
+        mimetype='image/vnd.microsoft.icon'
+    )
+
+# --------------------------
+# Run the Flask App
 # --------------------------
 if __name__ == "__main__":
+    print("✅ Firebase connection successful!")
     print("🚀 Flask Supervisor Dashboard running at http://127.0.0.1:5000")
     app.run(debug=True)
