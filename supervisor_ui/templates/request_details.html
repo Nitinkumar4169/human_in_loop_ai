@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Request Details</title>
+  <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+</head>
+
+<body>
+  <div class="container mt-5">
+    <h2>Request Details</h2>
+    {% if req %}
+    <div class="detail"><strong>User Query:</strong> {{ req.query }}</div>
+    <div class="detail"><strong>Category:</strong> {{ req.category }}</div>
+    <div class="detail"><strong>Status:</strong> {{ req.status }}</div>
+    {% if req.answer %}
+    <div class="detail"><strong>Supervisor Reply:</strong> {{ req.answer }}</div>
+    <div class="detail"><strong>Resolved At:</strong> {{ req.resolved_at }}</div>
+    {% else %}
+    <form method="POST" action="{{ url_for('resolve', id=req.id) }}">
+      <label for="answer">Your Reply:</label>
+      <textarea name="answer" class="form-control" required></textarea>
+      <br>
+      <button type="submit" class="btn btn-primary">Submit Reply</button>
+    </form>
+    {% endif %}
+    {% else %}
+    <p>No request data found.</p>
+    {% endif %}
+    <a href="{{ url_for('home') }}" class="btn btn-secondary mt-3">⬅ Back</a>
+  </div>
+</body>
+
+</html>

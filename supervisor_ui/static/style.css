@@ -1,0 +1,93 @@
+body {
+  background: #f3f6fa;
+  font-family: "Poppins", sans-serif;
+  color: #333;
+}
+
+/* 🌸 Navbar */
+.navbar {
+  background: linear-gradient(90deg, #ff4b8b, #ff1493);
+  box-shadow: 0px 4px 10px rgba(255, 20, 147, 0.2);
+}
+.navbar-brand {
+  font-weight: 700;
+  font-size: 1.8rem;
+  color: white !important;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.navbar-brand img {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+}
+
+/* 💼 Main Container */
+.dashboard-container {
+  max-width: 95%;
+  margin: 50px auto;
+}
+.card {
+  border: none;
+  border-radius: 20px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  background: white;
+  padding: 40px;
+}
+
+/* Table */
+th {
+  background-color: #ff4b8b !important;
+  color: white;
+  text-transform: uppercase;
+  font-size: 1.1rem;
+}
+td {
+  text-align: center;
+  vertical-align: middle;
+  font-size: 1rem;
+}
+
+/* Badges */
+.badge-pending {
+  background-color: #ffc107;
+  color: #000;
+}
+.badge-resolved {
+  background-color: #28a745;
+  color: white;
+}
+
+/* Buttons */
+.btn-resolve {
+  background-color: #28a745;
+  color: white;
+  border-radius: 8px;
+  padding: 5px 10px;
+}
+.btn-resolve:hover {
+  background-color: #218838;
+}
+.btn-info {
+  background-color: #17a2b8;
+}
+.btn-info:hover {
+  background-color: #138496;
+}
+
+/* Animation */
+.fade-in {
+  animation: fadeIn 1s ease-in-out;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  color: #555;
+  margin-top: 60px;
+}
